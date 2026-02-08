@@ -1,0 +1,132 @@
+% LaTeX template for ECE 486 Lab; this template should be used with "report"
+% section in the lab manual
+
+% by Y\"un Han
+% 2017-06-06
+
+% A lot of changes have happened during the last four years. So a major overhaul
+% is needed.
+
+% -------------------
+% Editor + TeX engine
+% -------------------
+\documentclass{article}
+% \usepackage{graphicx}
+% \usepackage{caption}
+\usepackage{mathtools} % load AMS maths
+\usepackage{amsmath}  % for math spacing
+\usepackage{amssymb}  % for math spacing
+\usepackage[margin=2.5cm]{geometry} % an easy way to change page layout, Thanks to Brady Salz 
+\newcommand{\score}{\hfill \underline{\hspace{0.65cm}}\,/} % for score underline
+\newcommand\RR{\textsuperscript{\textregistered}~} % for registered mark
+\begin{document}
+% consider aligning your names like the following
+% ----
+% ************Lab X Report 
+%
+% ************by YOUR NAME
+% ******Lab Partner: HIS/HER NAME
+% ******Lab      TA: Y\"un Han
+% ----
+\title{\bf Lab \#1 Report\\{\sc Simulation Using \\the Analog Computer}}
+\author{Eli Onufrock \\ Section ABA\\
+  Lab Partners: Jacob Zora and Josh Powers\\
+  Lab TA: Junjie Gao}
+\maketitle
+\noindent \fbox{\bf \Large Total: \underline{\hspace{0.65cm}}\,/40}
+\section*{Question 1 \score 15}
+\subsection*{Theoretical and Experimental Results \score 5}
+\begin{table}[phtb]
+  \begin{center}
+    \caption{Theoretical and Experimental Results}
+     \label{tbl:lab1_q1}
+    \begin{tabular}{c|rr|rr|rr} \hline \hline
+      & \multicolumn{2}{c}{$M_p$ (\%)} & \multicolumn{2}{c}{$t_r$ (s)} & \multicolumn{2}{c}{$t_s$ (s)} \\ \cline{2-7} % horizontal line spanning across specified columns
+      $\zeta$ & Theory & Experiment & Theory & Experiment & Theory & Experiment \\
+      \hline
+      2.0 & 0 & & 8.2 & & 11.6 &\\ 
+      1.5 & 0 && 5.85 && 8.3 &\\
+      1.0 & 0 && 3.35 && 5.0 &\\
+      0.8 & 0.0152 && 2.5 && 3.68 &\\
+      0.7 & 0.046 && 2.159 && 3.02 &\\
+      0.5 & 0.163 && 1.625 && 6.28 &\\
+      0.3 & 0.372 && 1.299 && 10.14 &\\
+      0.2 & 0.527 && 1.214 && 15.08 & \\ \hline 
+    \end{tabular} 
+    \end{center}
+\end{table}
+\subsection*{Comparison of Theoretical/Experimental Results \score 5}
+% add your discussion here 
+
+\subsection*{Discussion of Variation of $\zeta$ with $M_p$, $t_r$, and $t_s$ \score 5}
+(As $\zeta$ decreases, how does $M_p$ change? As $\zeta$ decreases, how about $t_r$ and $t_s$?)
+Decreasing $\zeta$ causes $M_p$ to increase, as the reduced damping leads to an increased 
+overshoot. 
+It also causes $t_r$ to decrease, while $t_s$ decreases as $\zeta$ goes from 2 to about 0.7, 
+then increases again, with overdamping increasing the time required to reach the steady state
+value to begin with and underdamping causing oscillations before the value settles down.
+
+\section*{Question 2 \score 15}
+
+\subsection*{Effect of $\zeta$ on Pole Locations \score 5}
+(Solve for poles in terms of $\zeta$ and sketch a plot of trajectory of pole locations [you can use {\sc Matlab\RR}] when $\zeta$ varies.)
+The poles of the transfer function are the roots of $s^2+2\zeta\omega_ns+\omega^2_n$,
+which can be found with the quadratic formula: 
+
+\begin{center}
+	$\frac{-2\zeta\omega_n \pm \sqrt{(2\zeta\omega_n)^2-4(1)\omega^2}}{2}$
+	$ = -\zeta\omega_n \pm \omega_n\sqrt{\zeta^2-1}$
+\end{center}
+which, since $\omega_n$ = 1, is: 
+
+\begin{center}
+	$\zeta \pm \sqrt{\zeta^2-1}$
+\end{center}
+
+\begin{figure}
+	\includegraphics[scale=0.6]{pole-locations.png}
+	\centering
+	\caption{Location of poles of transfer function in complex plane for varying values of 
+		$\zeta$}
+	\label{poles}
+
+\end{figure}
+\subsection*{Effect of Pole Locations on $M_p$, $t_r$, and $t_s$ for an Underdamped System \score 5}
+(What is the value of $\zeta$ when a system is \emph{underdamped}? As $\zeta$ increases, what happens to $M_p$, $t_r$, and $t_s$?)
+
+
+When $\zeta < 1$, the system is underdamped. For lower values of $\zeta$, the system has 
+greater overshoot ($M_p$)and more oscillation, leading to a longer settling time ($t_s$),
+but a faster rise time ($t_r$). 
+As $\zeta$ increases, rise time increases, but overshoot and settling time decrease.
+
+\subsection*{Effect of Pole Locations on $M_p$, $t_r$, and $t_s$ for an Overdamped/Critically Damped System \score 5}
+(What is the value of $\zeta$ when a system is \emph{overdamped}? \emph{Critically damped}? And as $\zeta$ increases, what happens to $M_p$, $t_r$, and $t_s$?)
+% add your discussion here
+The system becomes critically damped when $\zeta$ = 1. When $\zeta$ has increased to this point,
+there ceases to be overshoot and there is no oscillation, so the settling time is low. 
+(The rise time is increased from underdamped conditions, so some underdamped ratios may cause
+the system to reach the acceptable range for settling time faster as seen in the results.)
+
+As $\zeta$ keeps increasing, there continues to be no overshoot, but rise time also increases,
+causing the settling time to increase. Under these conditions the system is overdamped.
+
+\section*{Question 3 \score 10}
+
+\subsection*{Comparison of $2^{\rm nd}$ Order System with $1^{\rm st}$ Order System with Dominant Pole \score 6}
+(What are the similarities/differences between the response of an overdamped $2^{\rm nd}$ order system to the response of a $1^{\rm st}$ order system with the \emph{dominant} (less negative, closer to the origin) pole of the $2^{\rm nd}$ order's poles?)
+% add your discussion here
+
+\subsection*{Effect of $\zeta$ on Accuracy of Approximation \score 4}
+(What is the effect of magnitude of $\zeta$ on the accuracy of the approximations? Also include your graphs.)
+% add your discussion here
+\newline \\[10mm]
+\noindent {\bf \large Attachments}
+\begin{itemize}
+\item Plots obtained during lab
+\item Sample response with relevant points for calculating $M_p$ , $t_s$ and $t_r$ marked
+\item Step responses comparing $2^{\rm nd}$ order systems and $1^{\rm st}$ order approximations
+\item {\sc Matlab} code
+\end{itemize}
+
+\end{document}

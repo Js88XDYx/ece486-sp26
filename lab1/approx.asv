@@ -1,0 +1,44 @@
+zeta = [1.5;
+
+p1 = zeta + sqrt(zeta.^2 - 1);
+p2 = zeta - sqrt(zeta.^2 - 1);
+
+pmin = min(p1, abs(p2));
+
+h1 = tf([p1.*p2], [1, 2*zeta, 1])
+h2 = tf(pmin, [1, pmin])
+
+hold on
+% compute step responses for all systems and add labels/legend
+t = 0:0.01:1; % common time vector for step responses
+
+% h1 and h2 are arrays of transfer functions (3 each). Compute step responses.
+[y1, t1] = step(h1, t);
+[y2, t2] = step(h2, t);
+
+% step returns y arrays with dimensions [Nt x Ny x Nu]. For SISO arrays of 3 systems
+% y1 and y2 will be Nt-by-1-by-3. Squeeze to Nt-by-3 for plotting.
+y1 = squeeze(y1); % Nt x 3
+y2 = squeeze(y2); % Nt x 3
+
+% Plot each response (h1 in solid lines, h2 in dashed lines) with distinguishable colors
+colors = lines(max(numel(zeta),3));
+linesHandles = gobjects(2*numel(zeta),1);
+labels = cell(2*numel(zeta),1);
+
+for k = 1:numel(zeta)
+    % h1 (solid)
+    linesHandles(2*k-1) = plot(t1, y1(:,k), 'Color', colors(k,:), 'LineWidth', 1.5);
+    hold on
+    labels{2*k-1} = sprintf('h1, \\zeta=%.1f', zeta(k));
+    % h2 (dashed)
+    linesHandles(2*k) = plot(t2, y2(:,k), '--', 'Color', colors(k,:), 'LineWidth', 1.5);
+    labels{2*k} = sprintf('h2, \\zeta=%.1f', zeta(k));
+end
+
+xlabel('Time (s)')
+ylabel('Amplitude')
+title('Step responses of h1 (solid) and h2 (dashed) for different \zeta')
+legend(linesHandles, labels, 'Location', 'Best')
+grid on
+hold off
