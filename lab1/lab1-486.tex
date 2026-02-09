@@ -57,9 +57,22 @@
 \end{table}
 \subsection*{Comparison of Theoretical/Experimental Results \score 5}
 % add your discussion here 
+The values for $M_p$ and $t_r$ are generally close to the theoretical values,
+while $t_s$ displayed in many cases a high degree of difference, with a maximum error of
+64\% for $\zeta = 0.7$ and in all but three cases an error above 15\%. 
+There are some patterns to the variance across the three variables: 
+$M_p$ tends to be consistently somewhat below the theoretical value, 
+$t_r$ tends to be slightly higher, and 
+$t_s$ tends to be longer. 
+These variances are especially noticable at the higher $\zeta$ values and come closer to the  
+theoretical values as $\zeta$ decreases. 
+The increased settling time would tend to suggest there is some oscillation from within 
+the circuitry of the analog computer counteracting the damping; however the increased rise
+time and reduced peak would suggest increased damping. 
 
 \subsection*{Discussion of Variation of $\zeta$ with $M_p$, $t_r$, and $t_s$ \score 5}
 (As $\zeta$ decreases, how does $M_p$ change? As $\zeta$ decreases, how about $t_r$ and $t_s$?)
+
 Decreasing $\zeta$ causes $M_p$ to increase, as the reduced damping leads to an increased 
 overshoot. 
 It also causes $t_r$ to decrease, while $t_s$ decreases as $\zeta$ goes from 2 to about 0.7, 
@@ -70,6 +83,7 @@ value to begin with and underdamping causing oscillations before the value settl
 
 \subsection*{Effect of $\zeta$ on Pole Locations \score 5}
 (Solve for poles in terms of $\zeta$ and sketch a plot of trajectory of pole locations [you can use {\sc Matlab\RR}] when $\zeta$ varies.)
+
 The poles of the transfer function are the roots of $s^2+2\zeta\omega_ns+\omega^2_n$,
 which can be found with the quadratic formula: 
 
@@ -94,7 +108,6 @@ which, since $\omega_n$ = 1, is:
 \subsection*{Effect of Pole Locations on $M_p$, $t_r$, and $t_s$ for an Underdamped System \score 5}
 (What is the value of $\zeta$ when a system is \emph{underdamped}? As $\zeta$ increases, what happens to $M_p$, $t_r$, and $t_s$?)
 
-
 When $\zeta < 1$, the system is underdamped. For lower values of $\zeta$, the system has 
 greater overshoot ($M_p$)and more oscillation, leading to a longer settling time ($t_s$),
 but a faster rise time ($t_r$). 
@@ -103,6 +116,7 @@ As $\zeta$ increases, rise time increases, but overshoot and settling time decre
 \subsection*{Effect of Pole Locations on $M_p$, $t_r$, and $t_s$ for an Overdamped/Critically Damped System \score 5}
 (What is the value of $\zeta$ when a system is \emph{overdamped}? \emph{Critically damped}? And as $\zeta$ increases, what happens to $M_p$, $t_r$, and $t_s$?)
 % add your discussion here
+
 The system becomes critically damped when $\zeta$ = 1. When $\zeta$ has increased to this point,
 there ceases to be overshoot and there is no oscillation, so the settling time is low. 
 (The rise time is increased from underdamped conditions, so some underdamped ratios may cause
@@ -116,7 +130,6 @@ causing the settling time to increase. Under these conditions the system is over
 \subsection*{Comparison of $2^{\rm nd}$ Order System with $1^{\rm st}$ Order System with Dominant Pole \score 6}
 (What are the similarities/differences between the response of an overdamped $2^{\rm nd}$ order system to the response of a $1^{\rm st}$ order system with the \emph{dominant} (less negative, closer to the origin) pole of the $2^{\rm nd}$ order's poles?)
 % add your discussion here
-
 \subsection*{Effect of $\zeta$ on Accuracy of Approximation \score 4}
 (What is the effect of magnitude of $\zeta$ on the accuracy of the approximations? Also include your graphs.)
 % add your discussion here
