@@ -1,44 +1,77 @@
-zeta = [1.5;
+zeta15 = 1.5; %1.5, 5, 40
+zeta5 = 5;
+zeta40 = 40;
 
-p1 = zeta + sqrt(zeta.^2 - 1);
-p2 = zeta - sqrt(zeta.^2 - 1);
+%setup for z = 1.5
+p1_15 = zeta15 + sqrt(zeta15.^2 - 1)
+p2_15 = zeta15 - sqrt(zeta15.^2 - 1)
 
-pmin = min(p1, abs(p2));
+if abs(p1_15) < abs(p2_15)
+    pmin_15 = p1_15
+else
+    pmin_15 = p2_15
+end
 
-h1 = tf([p1.*p2], [1, 2*zeta, 1])
-h2 = tf(pmin, [1, pmin])
+h1_15 = tf([p1_15*p2_15], [1, p1_15+p2_15, p1_15*p2_15])
+h2_15 = tf(pmin_15, [1, pmin_15])
+
+%setup for z = 5
+p1_5 = zeta5 + sqrt(zeta5.^2 - 1);
+p2_5 = zeta5 - sqrt(zeta5.^2 - 1);
+
+if abs(p1_5) < abs(p2_5)
+    pmin_5 = p1_5;
+else
+    pmin_5 = p2_5;
+end
+
+h1_5 = tf([p1_5*p2_5], [1, p1_5+p2_5, p1_5*p2_5])
+h2_5 = tf(pmin_5, [1, pmin_5])
+
+%setup for z = 40
+p1_40 = zeta40 + sqrt(zeta40.^2 - 1);
+p2_40 = zeta40 - sqrt(zeta40.^2 - 1);
+
+if abs(p1_40) < abs(p2_40)
+    pmin_40 = p1_40;
+else
+    pmin_40 = p2_40;
+end
+
+h1_40 = tf([p1_40*p2_40], [1, p1_40+p2_40, p1_40*p2_40])
+h2_40 = tf(pmin_40, [1, pmin_40])
+
 
 hold on
 % compute step responses for all systems and add labels/legend
 t = 0:0.01:1; % common time vector for step responses
 
-% h1 and h2 are arrays of transfer functions (3 each). Compute step responses.
-[y1, t1] = step(h1, t);
-[y2, t2] = step(h2, t);
 
-% step returns y arrays with dimensions [Nt x Ny x Nu]. For SISO arrays of 3 systems
-% y1 and y2 will be Nt-by-1-by-3. Squeeze to Nt-by-3 for plotting.
-y1 = squeeze(y1); % Nt x 3
-y2 = squeeze(y2); % Nt x 3
+hold on
+actual_15 = step(h1_15);
+appr_15 = step(h2_15);
+actual_5 = step(h1_5);
+appr_5 = step(h2_5);
+actual_40 = step(h1_40);
+appr_40 = step(h2_40);
 
-% Plot each response (h1 in solid lines, h2 in dashed lines) with distinguishable colors
-colors = lines(max(numel(zeta),3));
-linesHandles = gobjects(2*numel(zeta),1);
-labels = cell(2*numel(zeta),1);
 
-for k = 1:numel(zeta)
-    % h1 (solid)
-    linesHandles(2*k-1) = plot(t1, y1(:,k), 'Color', colors(k,:), 'LineWidth', 1.5);
-    hold on
-    labels{2*k-1} = sprintf('h1, \\zeta=%.1f', zeta(k));
-    % h2 (dashed)
-    linesHandles(2*k) = plot(t2, y2(:,k), '--', 'Color', colors(k,:), 'LineWidth', 1.5);
-    labels{2*k} = sprintf('h2, \\zeta=%.1f', zeta(k));
-end
+colors = lines(3);
+plot(actual_15,  'Color', colors(1,:), 'LineStyle', '-');
+plot(appr_15,    'Color', colors(1,:), 'LineStyle', '--');
+plot(actual_5,   'Color', colors(2,:), 'LineStyle', '-');
+plot(appr_5,     'Color', colors(2,:), 'LineStyle', '--');
+plot(actual_40,  'Color', colors(3,:), 'LineStyle', '-');
+plot(appr_40,    'Color', colors(3,:), 'LineStyle', '--');
 
-xlabel('Time (s)')
-ylabel('Amplitude')
-title('Step responses of h1 (solid) and h2 (dashed) for different \zeta')
-legend(linesHandles, labels, 'Location', 'Best')
-grid on
-hold off
+legend('Actual Response 1.5', 'Approximate Response 1.5', ...
+    'Actual Response 5', 'Approximate Response 5' ...
+'Actual Response 40', 'Approximate Response 40');
+%xlim([0, 1])
+%ylim([0,2])
+xlabel('Time (s)');
+ylabel('Response');
+title(sprintf('Actual and Approximated Step Responses for %s = %.1f', '\zeta', zeta15));
+grid on;
+
+
