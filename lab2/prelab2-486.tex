@@ -1,0 +1,45 @@
+\documentclass[letterpaper,11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[left=1.25in,right=1.25in]{geometry}
+\usepackage{lmodern}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{xcolor}
+\usepackage{url}
+\usepackage{textcomp}
+\usepackage{parskip}
+
+\title{Prelab 2: Digital Simulation}
+\author{Elijah Onufrock}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{All-Integrator Block Diagram}
+$H_1(s) = \frac{Y(s)}{U(s)} = \frac{25}{s^2+6s+25}$
+
+This can be rearranged to give the equation
+$s^2Y(s) = 25U(s) - 6sY(s) - 25Y(s)$
+, which produces the following all-integrator block diagram:
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\linewidth]{prelab-block.png}
+	\caption{All-integrator Block Diagram for $H_1(s)$}
+	\label{fig:block}
+\end{figure}
+
+This system has $\omega_n = \sqrt{25} = 5$ and 
+$\zeta = \frac{6}{2\omega_n} = \frac{6}{10} = 0.6 $,
+indicating the system is underdamped.
+Its poles are at the zeros of $s^2+6s+25$, which are $-3+j4$ and $-3-j4$.
+
+\end{document}
